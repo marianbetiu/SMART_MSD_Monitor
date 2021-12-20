@@ -1,0 +1,99 @@
+﻿@model Data.ViewModels.HomeIndexViewModel
+
+@Html.Partial("_PageTitle", string.Empty)
+
+<div class="form-inline">
+    <div class="form-group">
+        @Html.Label("Min Remainig Quantity:")
+        @Html.DropDownListFor(model => model.selectedQty, new SelectList(Model.Quantities), new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.Label("Max Remaining Time:")
+        @Html.DropDownListFor(model => model.selectedRemTime, new SelectList(Model.RemTimes), new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.Label("Select MSL:")
+        @Html.DropDownListFor(model => model.selectedMSL, new SelectList(Model.MSLLevels), new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <div class="btn btn-success" id="btnRefresh">
+            <span class="fa fa-refresh"></span>
+        </div>
+    </div>
+
+</div>
+<hr/>
+
+<div id="resultInfo">
+    @*@Html.Partial("_ResultInfo", Model)*@
+</div>
+
+<div id="loadingIndex" class="form-horizontal">
+    <br />
+    <div class="form-group margin-bottom-sm">
+        <div class="col-xs-offset-2 col-xs-4">
+            <img src="~/img/loading.gif" />
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/JavaScript">
+        $(document).ready(function () {
+            $('#loadingIndex').hide();
+
+            $("#TableMain").DataTable({
+                //"scrollCollapse": true,
+                "paging": false,
+                "fixedHeader": true,
+                //scrollY: '500px',
+                fixedHeader: {
+                    header: true,
+                    footer: true
+                },
+                "order": [[4, "asc"]],
+                //"bLengthChange": false,
+                //"Filter": false,
+                //"Info": false,
+                "columnDefs": [
+                    { "targets": -1, "orderable": true }
+                ],
+                "dom": '<"toolbar">fltip'
+            });
+
+            $("div.toolbar").html('<b>&nbsp;</b>');
+
+            $('.datepicker').datepicker({
+                //hourGrid: 4,
+                //minuteGrid: 10,
+                dateFormat: 'yy-mm-dd',
+                //timeFormat: 'HH:mm:ss'
+            });
+
+            $('#btnRefresh').click(function () {
+                $('#loadingIndex').show();
+                $('#resultInfo').hide();
+                var selQty = $('#selectedQty').val();
+                var selRemTm = $('#selectedRemTime').val();
+                var mslSel = $('#selectedMSL').val();
+                $.ajax({
+                    url: '/Home/Refresh',
+                    type: "Get",
+                    datatype: 'json',
+                    data: {qty: selQty, remTime: selRemTm, msl: mslSel},
+                    success: function (result) {
+                        $('#resultInfo').html(result);
+                        $('#loadingIndex').hide();
+                        $('#resultInfo').show();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert(errorThrown);
+                    }
+                });
+            });
+
+        });
+
+    </script>
+}
+

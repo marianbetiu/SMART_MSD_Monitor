@@ -1,0 +1,77 @@
+﻿<!-- Fixed navbar -->
+<nav class="navbar navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="@Url.Action("Index", "Home")">
+                <span><img class="logo" src="~/Images/Logo_Continental_Black.png" alt="Continental" /></span>
+                <span class="label label-default" style="font-size: 0.9em;">@ViewBag.AppName <small>[@ViewBag.AppVersion]</small></span>
+                <span class="badge alert-info" style="font-size: 0.9em;">@ViewBag.DivisionsName</span>
+            </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                @{
+                    <li>
+                        <a href="@Url.Action("Index", "Home")">
+                            <span class="fa fa-home"></span>
+                            Home
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <span class="glyphicon glyphicon-cog"></span>
+                            Management 
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.Action("Index", "Users")">Users</a></li>
+                        </ul>
+                    </li>
+                    @*if (ViewBag.UserRol == "Administrator")
+            {
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Management <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="@Url.Action("Index", "ManagementRoles")">User roles</a></li>
+                        <li><a href="@Url.Action("Index", "ManagementUsers")">Users</a></li>
+                        <li><a href="@Url.Action("Index", "ManagementCodes")">Codes</a></li>
+                        <li><a href="@Url.Action("Index", "ManagementPeriods")">Periods</a></li>
+                        <li><a href="@Url.Action("Index", "ManagementTopics")">Topics</a></li>
+                        <li><a href="@Url.Action("Index", "ManagementRoutines")">Routines</a></li>
+                        <li><a href="@Url.Action("Index", "ManagementStatuses")">Statuses</a></li>
+                    </ul>
+                </li>
+            }
+            <li><a href="@Url.Action("Index", "UserVacations")">Vacations</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" target="_blank">FF HMI</a></li>
+                    <li><a href="#" target="_blank">FF PSS</a></li>
+                </ul>
+            </li>*@
+                }
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <p class="navbar-text">Welcome, 
+                        @if (!string.IsNullOrEmpty(ViewBag.UserName))
+                        {         
+                            @:<b>@ViewBag.UserName</b>
+                        }
+                        else
+                        {
+                            @:<b>@User.Identity.Name</b>
+                        }
+                    </p>
+                </li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>

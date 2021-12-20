@@ -1,0 +1,10 @@
+﻿
+@{
+    var message = TempData["Message"] as WebManagement.ViewModels.Shared.MessageViewModel;
+    if(message != null) {
+        <div class="alert @message.BootstrapLevelDescription fade in">
+            <a href="#" class="close" data-dismiss="alert">&times;</a>
+            <strong>@message.LevelDescription!</strong> @message.Content
+        </div>
+    }
+}

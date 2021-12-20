@@ -1,0 +1,14 @@
+﻿@model string
+
+<div class="page-header">
+  <h2>
+    @if (!string.IsNullOrEmpty(Model))
+    {
+        @(Model.StartsWith("@") ? Model.Substring(1, Model.Length - 1) : (@ViewBag.DisplayName + " - " + Model))
+    }
+    else
+    {
+        @ViewBag.DisplayName
+    }
+  </h2>
+</div>

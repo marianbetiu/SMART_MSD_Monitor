@@ -1,0 +1,377 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MSL_PSSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ActivityLog">
+          <Key>
+            <PropertyRef Name="RegisterTime" />
+          </Key>
+          <Property Name="RegisterTime" Type="datetime" Nullable="false" />
+          <Property Name="DataMatrix" Type="text" Nullable="false" />
+          <Property Name="RawID" Type="text" Nullable="false" />
+          <Property Name="Action" Type="text" Nullable="false" />
+          <Property Name="RemainingTime" Type="datetime" />
+          <Property Name="UserName" Type="text" />
+          <Property Name="Comment" Type="text" />
+        </EntityType>
+        <EntityType Name="Definition">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Duration" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InstancesConfigurations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HostName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="CommandId" Type="int" Nullable="false" />
+          <Property Name="EnableStatus" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Reels">
+          <Key>
+            <PropertyRef Name="ReelId" />
+          </Key>
+          <Property Name="ReelId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RAWID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ExpireDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ResetCounter" Type="int" Nullable="false" />
+          <Property Name="ResetCounterDateTime" Type="datetime" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="MSLId" Type="int" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReelsActions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateTimeRegistered" Type="datetime" Nullable="false" />
+          <Property Name="Identificator" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Action" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RemainingTime" Type="datetime" Nullable="false" />
+          <Property Name="Location" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserCommands">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserPassword" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserNameDescription" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MSL_PSS.dbo.View_Reels_Levels' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="View_Reels_Levels">
+          <Key>
+            <PropertyRef Name="RAWID" />
+            <PropertyRef Name="MSL_Level" />
+          </Key>
+          <Property Name="RAWID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="MSL_Level" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_InstancesConfigurations_UserCommands">
+          <End Role="UserCommands" Type="Self.UserCommands" Multiplicity="1" />
+          <End Role="InstancesConfigurations" Type="Self.InstancesConfigurations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserCommands">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InstancesConfigurations">
+              <PropertyRef Name="CommandId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InstancesConfigurations_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="InstancesConfigurations" Type="Self.InstancesConfigurations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="InstancesConfigurations">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MSL_PSSModelStoreContainer">
+          <EntitySet Name="ActivityLog" EntityType="Self.ActivityLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Definition" EntityType="Self.Definition" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InstancesConfigurations" EntityType="Self.InstancesConfigurations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reels" EntityType="Self.Reels" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReelsActions" EntityType="Self.ReelsActions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserCommands" EntityType="Self.UserCommands" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="View_Reels_Levels" EntityType="Self.View_Reels_Levels" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_Reels_Levels].[RAWID] AS [RAWID], 
+    [View_Reels_Levels].[MSL_Level] AS [MSL_Level]
+    FROM [dbo].[View_Reels_Levels] AS [View_Reels_Levels]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_InstancesConfigurations_UserCommands" Association="Self.FK_InstancesConfigurations_UserCommands">
+            <End Role="UserCommands" EntitySet="UserCommands" />
+            <End Role="InstancesConfigurations" EntitySet="InstancesConfigurations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InstancesConfigurations_Users" Association="Self.FK_InstancesConfigurations_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="InstancesConfigurations" EntitySet="InstancesConfigurations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MSL_PSSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ActivityLog">
+          <Key>
+            <PropertyRef Name="RegisterTime" />
+          </Key>
+          <Property Name="RegisterTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DataMatrix" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RawID" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Action" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RemainingTime" Type="DateTime" Precision="3" />
+          <Property Name="UserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Definition">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Duration" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InstancesConfiguration">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HostName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="CommandId" Type="Int32" Nullable="false" />
+          <Property Name="EnableStatus" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="UserCommand" Relationship="Self.FK_InstancesConfigurations_UserCommands" FromRole="InstancesConfigurations" ToRole="UserCommands" />
+          <NavigationProperty Name="User" Relationship="Self.FK_InstancesConfigurations_Users" FromRole="InstancesConfigurations" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Reel">
+          <Key>
+            <PropertyRef Name="ReelId" />
+          </Key>
+          <Property Name="ReelId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RAWID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ExpireDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ResetCounter" Type="Int32" Nullable="false" />
+          <Property Name="ResetCounterDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="MSLId" Type="Int32" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="ReelsAction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateTimeRegistered" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Identificator" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Action" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RemainingTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserCommand">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="InstancesConfigurations" Relationship="Self.FK_InstancesConfigurations_UserCommands" FromRole="UserCommands" ToRole="InstancesConfigurations" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="InstancesConfigurations" Relationship="Self.FK_InstancesConfigurations_Users" FromRole="Users" ToRole="InstancesConfigurations" />
+          <Property Name="UserNameDescription" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_InstancesConfigurations_UserCommands">
+          <End Role="UserCommands" Type="Self.UserCommand" Multiplicity="1" />
+          <End Role="InstancesConfigurations" Type="Self.InstancesConfiguration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserCommands">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InstancesConfigurations">
+              <PropertyRef Name="CommandId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InstancesConfigurations_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="InstancesConfigurations" Type="Self.InstancesConfiguration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="InstancesConfigurations">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MSL_Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ActivityLogs" EntityType="Self.ActivityLog" />
+          <EntitySet Name="Definitions" EntityType="Self.Definition" />
+          <EntitySet Name="InstancesConfigurations" EntityType="Self.InstancesConfiguration" />
+          <EntitySet Name="Reels" EntityType="Self.Reel" />
+          <EntitySet Name="ReelsActions" EntityType="Self.ReelsAction" />
+          <EntitySet Name="UserCommands" EntityType="Self.UserCommand" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_InstancesConfigurations_UserCommands" Association="Self.FK_InstancesConfigurations_UserCommands">
+            <End Role="UserCommands" EntitySet="UserCommands" />
+            <End Role="InstancesConfigurations" EntitySet="InstancesConfigurations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InstancesConfigurations_Users" Association="Self.FK_InstancesConfigurations_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="InstancesConfigurations" EntitySet="InstancesConfigurations" />
+          </AssociationSet>
+          <EntitySet Name="View_Reels_Levels" EntityType="MSL_PSSModel.View_Reels_Levels" />
+        </EntityContainer>
+        <EntityType Name="View_Reels_Levels">
+          <Key>
+            <PropertyRef Name="RAWID" />
+            <PropertyRef Name="MSL_Level" />
+          </Key>
+          <Property Name="RAWID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MSL_Level" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MSL_PSSModelStoreContainer" CdmEntityContainer="MSL_Entities">
+          <EntitySetMapping Name="ActivityLogs">
+            <EntityTypeMapping TypeName="MSL_PSSModel.ActivityLog">
+              <MappingFragment StoreEntitySet="ActivityLog">
+                <ScalarProperty Name="RegisterTime" ColumnName="RegisterTime" />
+                <ScalarProperty Name="DataMatrix" ColumnName="DataMatrix" />
+                <ScalarProperty Name="RawID" ColumnName="RawID" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="RemainingTime" ColumnName="RemainingTime" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Definitions">
+            <EntityTypeMapping TypeName="MSL_PSSModel.Definition">
+              <MappingFragment StoreEntitySet="Definition">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InstancesConfigurations">
+            <EntityTypeMapping TypeName="MSL_PSSModel.InstancesConfiguration">
+              <MappingFragment StoreEntitySet="InstancesConfigurations">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="HostName" ColumnName="HostName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CommandId" ColumnName="CommandId" />
+                <ScalarProperty Name="EnableStatus" ColumnName="EnableStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reels">
+            <EntityTypeMapping TypeName="MSL_PSSModel.Reel">
+              <MappingFragment StoreEntitySet="Reels">
+                <ScalarProperty Name="ReelId" ColumnName="ReelId" />
+                <ScalarProperty Name="RAWID" ColumnName="RAWID" />
+                <ScalarProperty Name="ExpireDateTime" ColumnName="ExpireDateTime" />
+                <ScalarProperty Name="ResetCounter" ColumnName="ResetCounter" />
+                <ScalarProperty Name="ResetCounterDateTime" ColumnName="ResetCounterDateTime" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="MSLId" ColumnName="MSLId" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReelsActions">
+            <EntityTypeMapping TypeName="MSL_PSSModel.ReelsAction">
+              <MappingFragment StoreEntitySet="ReelsActions">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DateTimeRegistered" ColumnName="DateTimeRegistered" />
+                <ScalarProperty Name="Identificator" ColumnName="Identificator" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="RemainingTime" ColumnName="RemainingTime" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserCommands">
+            <EntityTypeMapping TypeName="MSL_PSSModel.UserCommand">
+              <MappingFragment StoreEntitySet="UserCommands">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="MSL_PSSModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserNameDescription" ColumnName="UserNameDescription" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_Reels_Levels">
+            <EntityTypeMapping TypeName="MSL_PSSModel.View_Reels_Levels">
+              <MappingFragment StoreEntitySet="View_Reels_Levels">
+                <ScalarProperty Name="MSL_Level" ColumnName="MSL_Level" />
+                <ScalarProperty Name="RAWID" ColumnName="RAWID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
