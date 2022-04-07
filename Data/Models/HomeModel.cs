@@ -30,28 +30,67 @@ namespace Data.Models
             catch { }
             using(var model = Data.ModelAccess.GetNewDBModel())
             {
-                var collection = model.ReelsActions.Where(a => a.Action.ToUpper() == "PROVIDE").ToList();
+                //model.ReelsActions.Where(a => a.Action.ToUpper() == "PROVIDE").ToList();
+                var collection = new List<ReelsAction>();
+                var collectionGroupped = model.ReelsActions.GroupBy(a => a.Identificator); //.OrderByDescending(a => a.DateTimeRegistered);
+                var dtNow = DateTime.Now;
+                //.Where(a => a.Action.ToUpper() == "PROVIDE").ToList(); //.Where(a=>((a.RemainingTime-dtNow).TotalMinutes < maxRemTime) && ((a.RemainingTime - dtNow).TotalMinutes > -50)).ToList();
+                
+                foreach(var row in collectionGroupped)
+                {
+                    var current = row.OrderByDescending(a=>a.DateTimeRegistered).First();
+                    
+                    if (current.Action.ToUpper() == "PROVIDE")
+                    {
+                        var remTimeMinutes = (current.RemainingTime - dtNow).TotalMinutes;
+                        if(remTimeMinutes < maxRemTime && remTimeMinutes > -480)
+                        {
+                            collection.Add(current);
+                        }
+                    }
+                         
+                }
                 foreach(var item in collection)
                 {
+                    #region old code
+                    //var msLevel = Franco.GetReelMSL(item.Identificator);
+                    //if (msLevel != string.Empty && msLevel.ToUpper() == msl.ToUpper())
+                    //{
+                    //    var remTime = (item.RemainingTime - DateTime.Now).TotalMinutes;
+                    //    if (remTime < maxRemTime && remTime > -50)
+                    //    {
+                    //        var qty = await Task.FromResult(Data.Franco.GetReelQty(item.Identificator));
+                    //        if (qty > minQty)
+                    //        {
+                    //            result.Add(new ViewModels.HomeItemViewModel
+                    //            {
+                    //                Identifier = item.Identificator,
+                    //                RemTime = (int)remTime,
+                    //                Material = GetMaterialFromIdentifier(item.Identificator),
+                    //                MSL_Level = msLevel,
+                    //                Location = await Task.FromResult(Data.Franco.GetReelLocation(item.Identificator)),
+                    //                Quantity = qty
+                    //            });
+                    //        }
+                    //    }
+                    //}
+                    #endregion
+
                     var msLevel = Franco.GetReelMSL(item.Identificator);
                     if (msLevel != string.Empty && msLevel.ToUpper() == msl.ToUpper())
                     {
-                        var remTime = (item.RemainingTime - DateTime.Now).TotalMinutes;
-                        if (remTime < maxRemTime && remTime > -50)
+                        var qty = await Task.FromResult(Data.Franco.GetReelQty(item.Identificator));
+                        if (qty > minQty)
                         {
-                            var qty = await Task.FromResult(Data.Franco.GetReelQty(item.Identificator));
-                            if (qty > minQty)
+                            result.Add(new ViewModels.HomeItemViewModel
                             {
-                                result.Add(new ViewModels.HomeItemViewModel
-                                {
-                                    Identifier = item.Identificator,
-                                    RemTime = (int)remTime,
-                                    Material = GetMaterialFromIdentifier(item.Identificator),
-                                    MSL_Level = msLevel,
-                                    Location = await Task.FromResult(Data.Franco.GetReelLocation(item.Identificator)),
-                                    Quantity = qty
-                                });
-                            }
+                                Identifier = item.Identificator,
+                                RemTime = (int)(item.RemainingTime - dtNow).TotalMinutes,
+                                Material = GetMaterialFromIdentifier(item.Identificator),
+                                MSL_Level = msLevel,
+                                Location = await Task.FromResult(Data.Franco.GetReelLocation(item.Identificator)),
+                                Quantity = qty
+                            });
                         }
                     }
                 }

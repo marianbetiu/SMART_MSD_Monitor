@@ -1,0 +1,74 @@
+﻿html {
+}
+
+body {
+    padding-top: 70px;
+}
+
+img.logo {
+    height: 24px;
+}
+
+.margin-zero {
+  margin: 0 !important;
+}
+
+.margin-top-sm {
+  margin-top: 0.5em !important;
+}
+
+.margin-bottom-sm {
+  margin-bottom: 0.5em !important;
+}
+
+.margin-top-md {
+  margin-top: 2em !important;
+}
+
+.margin-bottom-md {
+  margin-bottom: 1em !important;
+}
+
+.margin-bottom-zero {
+  margin-bottom: 0 !important;
+}
+
+.width-auto {
+  width: auto !important;
+}
+
+table.table-row-vertical-align-middle thead th {
+  vertical-align: middle;
+}
+
+table.table-row-vertical-align-middle tbody td {
+  vertical-align: middle;
+}
+
+.table-nonfluid {
+   width: auto !important;
+   float: left !important;
+}
+
+.btn-secondary {
+  color: #000;
+  background-color: #cfcbcb;
+  border-color: #808080;
+}
+
+.btn-separator {
+    margin-right: 10px;
+    padding-right: 10px;
+    border-right: 1px solid #666;
+    height: 1.2em;
+}
+
+.dataTables_filter {
+    float: left !important;
+}
+
+.form-horizontal {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 95% !important;
+}

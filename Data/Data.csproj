@@ -41,11 +41,11 @@
     </Reference>
     <Reference Include="FraMES.Natives.Common, Version=2.1.0.4049, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\FraMES.Natives.Common.dll</HintPath>
+      <HintPath>\\cw01.contiwan.com\root\Loc\tma1\did94010\IE_Central\10_Software\03_Bin\MES\Lib\FraNCo-3.2.2\bin\FraMES.Natives.Common.dll</HintPath>
     </Reference>
     <Reference Include="FraMES.Natives.WIPMaMa, Version=2.7.3.4610, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\FraMES.Natives.WIPMaMa.dll</HintPath>
+      <HintPath>\\cw01.contiwan.com\root\Loc\tma1\did94010\IE_Central\10_Software\03_Bin\MES\Lib\FraNCo-3.2.2\bin\FraMES.Natives.WIPMaMa.dll</HintPath>
     </Reference>
     <Reference Include="Libs">
       <HintPath>..\Libs\bin\Debug\Libs.dll</HintPath>

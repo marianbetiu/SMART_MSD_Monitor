@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.AppDescription</title>
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/themes")
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/Site")        
+</head>
+<body>
+    @Html.Partial("_NavbarTop")
+
+    <div class="container-fluid">
+        @Html.Partial("_PageMessage")
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/datatables")
+    @Scripts.Render("~/bundles/d3")
+    @Scripts.Render("~/bundles/treetable")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/timepicker")
+    @Scripts.Render("~/bundles/Script-custom-editor")
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+

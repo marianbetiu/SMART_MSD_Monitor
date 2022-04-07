@@ -471,6 +471,7 @@
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
     <Content Include="Images\5SDiagram1.png" />
+    <Content Include="Images\IECLOGO.PNG" />
     <Content Include="Images\Logo_Continental_Black.png" />
     <Content Include="img\close.png" />
     <Content Include="img\loading.gif" />

@@ -1,0 +1,39 @@
+﻿@model WebManagement.ViewModels.Management.Users.UserEditViewModel
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id);
+    
+<div class="form-horizontal">
+    <div class="form-group margin-top-sm margin-bottom-sm">
+        @Html.LabelFor(model => model.NameFull, htmlAttributes: new { @class = "control-label col-xs-4" })
+        <div class="col-xs-8">
+            @Html.TextBoxFor(model => model.NameFull, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.NameFull, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    
+    <div class="form-group margin-bottom-sm">
+        @Html.LabelFor(model => model.NameLogin, htmlAttributes: new { @class = "control-label col-xs-4" })
+        <div class="col-xs-8">
+            @Html.TextBoxFor(model => model.NameLogin, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.NameLogin, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group margin-bottom-sm">
+        @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-xs-4" })
+        <div class="col-xs-8">
+            @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+        </div>
+    </div>
+
+</div>
+}
